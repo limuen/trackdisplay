@@ -10,7 +10,7 @@
         type="ios-play"
         @click="isPlay=true;navgControl(playIcon)"
       />
-      <Icon v-else class="play-icon" type="ios-pause" @click="isPlay=false;navgControl('pause')"/>
+      <Icon v-else class="play-icon" type="ios-pause" @click="isPlay=false;navgControl('pause')" />
       <span class="passed-time">{{passedTime}}</span>
       <Slider class="map-slider" v-model="sliderVal" :tip-format="hideFormat" :step="0.0001"></Slider>
       <div class="map-times" @mouseenter="isTimesChoose=true" @mouseleave="isTimesChoose=false">
@@ -120,7 +120,8 @@ export default {
         function onload() {
           that.pathSimplifierIns.renderLater();
         }
-        function onerror() {infoContent
+        function onerror() {
+          infoContent;
           console.log("图片加载失败！");
         }
 
@@ -198,11 +199,9 @@ export default {
           loop: false, //循环播放
           speed: startSpeed * that.times //巡航速度，单位千米/小时
         });
-        console.log(startPoint)
+        console.log(startPoint);
         //构建自定义信息窗体
-        let infoContent = `<p class="info-window">时间：<span>${
-          startPoint.time
-        } `;
+        let infoContent = `<p class="info-window">时间：<span>${startPoint.time} `;
         let infoWindow = new AMap.InfoWindow({
           anchor: "bottom-center",
           content: infoContent
@@ -360,6 +359,17 @@ export default {
         offset: new AMap.Pixel(-13, -30)
       });
       marker.setMap(this.map);
+    },
+    // 新增假如当前是子组件关闭的时候判断是播放还是其他状态，防止setSpeed报错null
+    cancelsubmitfotm() {
+      if (this.isPlay === true) {
+        this.isPlay = false;
+        this.navgControl("pause");
+      }
+      this.navgtr = null;
+      this.drag(true);
+      this.$emit("handleqktraV2IdId", this.traV2Id);
+      this.dialogFormVisible = false;
     }
   },
   beforeDestroy() {
@@ -371,7 +381,7 @@ export default {
       if (!this.isOnSlider) {
         return false;
       }
-      this.sliderChange(newVal)
+      this.sliderChange(newVal);
     }
   }
 };
